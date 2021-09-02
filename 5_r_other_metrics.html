@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;no title&gt; &#8212; Machine learning for hypoglycaemia prediction around exercise</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="4. Other diabetes metrics" href="4_other_metrics.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine learning for hypoglycaemia prediction around exercise</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="0_landing_page.html">
+   Welcome to my first Jupyter Book
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Chapter 1 - Interpolation for the improved identification of hypoglycaemic episodes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_create_df.html">
+   1. Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2_EDA.html">
+   2. Exploratory data analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3_identifying_hypos.html">
+   3. Hypoglycaemic episodes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4_other_metrics.html">
+   4. Other diabetes metrics
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/5_r_other_metrics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/5_r_other_metrics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">iglu</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyverse</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message:
+&quot;package &#39;dplyr&#39; was built under R version 3.6.3&quot;
+Attaching package: &#39;dplyr&#39;
+
+The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag
+
+The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union
+
+Registered S3 method overwritten by &#39;rvest&#39;:
+  method            from
+  read_xml.response xml2
+-- Attaching packages --------------------------------------- tidyverse 1.2.1 --
+v ggplot2 3.3.5     v readr   1.3.1
+v tibble  3.1.1     v purrr   0.3.2
+v tidyr   1.1.3     v stringr 1.4.0
+v ggplot2 3.3.5     v forcats 0.4.0
+Warning message:
+&quot;package &#39;tibble&#39; was built under R version 3.6.3&quot;Warning message:
+&quot;package &#39;tidyr&#39; was built under R version 3.6.3&quot;-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&#39;interp_dataset.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[[</span><span class="s">&#39;time&#39;</span><span class="p">]]</span> <span class="o">&lt;-</span> <span class="nf">as.POSIXct</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s">&#39;time&#39;</span><span class="p">]],</span>
+                                   <span class="n">format</span> <span class="o">=</span> <span class="s">&quot;%Y-%m-%d %H:%M:%S&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+<thead><tr><th scope=col>X</th><th scope=col>ID</th><th scope=col>time</th><th scope=col>glc</th><th scope=col>cut_glc</th><th scope=col>pchip</th><th scope=col>linear</th><th scope=col>cubicspline</th><th scope=col>akima</th><th scope=col>polynomial_3</th><th scope=col>polynomial_5</th><th scope=col>polynomial_7</th><th scope=col>polynomial_9</th><th scope=col>timestamp</th><th scope=col>matern</th><th scope=col>rbf900</th><th scope=col>rq</th><th scope=col>rbf</th></tr></thead>
+<tbody>
+	<tr><td>0                  </td><td>2017_6months       </td><td>2018-11-07 12:52:00</td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>1541595120         </td><td>16.72              </td><td>16.72              </td><td>16.72              </td><td>16.72              </td></tr>
+	<tr><td>1                  </td><td>2017_6months       </td><td>2018-11-07 12:53:00</td><td>   NA              </td><td>   NA              </td><td>16.84              </td><td>16.81              </td><td>16.84              </td><td>16.84              </td><td>16.84              </td><td>16.71              </td><td>16.41              </td><td>16.59              </td><td>1541595180         </td><td>17.06              </td><td>16.99              </td><td>16.81              </td><td>16.99              </td></tr>
+	<tr><td>2                  </td><td>2017_6months       </td><td>2018-11-07 12:54:00</td><td>   NA              </td><td>   NA              </td><td>16.96              </td><td>16.89              </td><td>16.96              </td><td>16.96              </td><td>16.96              </td><td>16.73              </td><td>16.23              </td><td>16.53              </td><td>1541595240         </td><td>17.34              </td><td>17.23              </td><td>16.90              </td><td>17.23              </td></tr>
+	<tr><td>3                  </td><td>2017_6months       </td><td>2018-11-07 12:55:00</td><td>   NA              </td><td>   NA              </td><td>17.07              </td><td>16.98              </td><td>17.07              </td><td>17.07              </td><td>17.07              </td><td>16.77              </td><td>16.16              </td><td>16.52              </td><td>1541595300         </td><td>17.56              </td><td>17.43              </td><td>16.98              </td><td>17.43              </td></tr>
+	<tr><td>4                  </td><td>2017_6months       </td><td>2018-11-07 12:56:00</td><td>   NA              </td><td>   NA              </td><td>17.18              </td><td>17.06              </td><td>17.18              </td><td>17.18              </td><td>17.18              </td><td>16.84              </td><td>16.16              </td><td>16.55              </td><td>1541595360         </td><td>17.74              </td><td>17.59              </td><td>17.07              </td><td>17.59              </td></tr>
+	<tr><td>5                  </td><td>2017_6months       </td><td>2018-11-07 12:57:00</td><td>17.00              </td><td>   NA              </td><td>17.29              </td><td>17.15              </td><td>17.28              </td><td>17.29              </td><td>17.28              </td><td>16.93              </td><td>16.24              </td><td>16.63              </td><td>1541595420         </td><td>17.87              </td><td>17.73              </td><td>17.15              </td><td>17.73              </td></tr>
+</tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">$</span><span class="n">id</span> <span class="o">=</span> <span class="nf">substring</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">ID</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df_cut</span> <span class="o">&lt;-</span> <span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">cut_glc</span><span class="p">),]</span>
+<span class="n">df_cut</span> <span class="o">&lt;-</span> <span class="n">df_cut</span> <span class="o">%&gt;%</span> <span class="nf">rename</span><span class="p">(</span><span class="n">gl</span> <span class="o">=</span> <span class="n">cut_glc</span><span class="p">,</span> <span class="n">id</span><span class="o">=</span><span class="n">ID</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span><span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="nf">is.na</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">gl</span><span class="p">),]</span>
+<span class="n">df</span> <span class="o">&lt;-</span> <span class="n">df</span> <span class="o">%&gt;%</span> <span class="nf">rename</span><span class="p">(</span><span class="n">gl</span> <span class="o">=</span> <span class="n">glc</span><span class="p">,</span> <span class="n">id</span><span class="o">=</span><span class="n">ID</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">glc_auc</span> <span class="o">=</span> <span class="nf">auc</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">cut_glc_auc</span> <span class="o">=</span> <span class="nf">auc</span><span class="p">(</span><span class="n">df_cut</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">$</span><span class="n">gl</span> <span class="o">=</span> <span class="n">df</span><span class="o">$</span><span class="n">gl</span><span class="o">/</span><span class="m">0.0555</span>
+<span class="n">df_cut</span><span class="o">$</span><span class="n">gl</span> <span class="o">=</span> <span class="n">df_cut</span><span class="o">$</span><span class="n">gl</span><span class="o">/</span><span class="m">0.0555</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">glc_lbgi</span> <span class="o">=</span> <span class="nf">lbgi</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">cut_glc_lbgi</span> <span class="o">=</span> <span class="nf">lbgi</span><span class="p">(</span><span class="n">df_cut</span><span class="p">)</span>
+
+<span class="n">glc_hbgi</span> <span class="o">=</span> <span class="nf">hbgi</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">cut_glc_hbgi</span> <span class="o">=</span> <span class="nf">hbgi</span><span class="p">(</span><span class="n">df_cut</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">relevent_results</span> <span class="o">=</span> <span class="nf">cbind</span><span class="p">(</span><span class="n">glc_auc</span><span class="p">,</span> <span class="n">cut_glc_auc</span><span class="o">$</span><span class="n">hourly_auc</span><span class="p">,</span> <span class="n">glc_lbgi</span><span class="o">$</span><span class="n">LBGI</span><span class="p">,</span> <span class="n">cut_glc_lbgi</span><span class="o">$</span><span class="n">LBGI</span><span class="p">,</span> <span class="n">glc_hbgi</span><span class="o">$</span><span class="n">HBGI</span><span class="p">,</span> 
+      <span class="n">cut_glc_hbgi</span><span class="o">$</span><span class="n">HBGI</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">relevent_results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>             id       hourly_auc     cut_glc_auc$hourly_auc glc_lbgi$LBGI   
+ 1001_baseline: 1   Min.   : 6.414   Min.   : 6.423         Min.   :0.0000  
+ 1003_6months : 1   1st Qu.: 8.816   1st Qu.: 8.808         1st Qu.:0.2336  
+ 1003_baseline: 1   Median :10.165   Median :10.172         Median :0.6454  
+ 1004_6months : 1   Mean   :10.270   Mean   :10.274         Mean   :0.9683  
+ 1004_baseline: 1   3rd Qu.:11.561   3rd Qu.:11.554         3rd Qu.:1.2700  
+ 1005_6months : 1   Max.   :17.401   Max.   :17.457         Max.   :6.3992  
+ (Other)      :93                                                           
+ cut_glc_lbgi$LBGI glc_hbgi$HBGI    cut_glc_hbgi$HBGI
+ Min.   :0.0000    Min.   : 1.357   Min.   : 1.355   
+ 1st Qu.:0.2406    1st Qu.: 7.120   1st Qu.: 7.131   
+ Median :0.6474    Median :10.539   Median :10.522   
+ Mean   :0.9650    Mean   :11.955   Mean   :11.959   
+ 3rd Qu.:1.2725    3rd Qu.:15.695   3rd Qu.:15.697   
+ Max.   :6.3823    Max.   :37.994   Max.   :37.918   
+                                                     
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">write.csv</span><span class="p">(</span><span class="n">relevent_results</span><span class="p">,</span> <span class="s">&#39;r_metrics.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">write.csv</span><span class="p">(</span><span class="n">all_metrics</span><span class="p">,</span> <span class="s">&#39;all_metrics_2.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_lasagna</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning message in CGMS2DayByDay(., tz = tz, dt0 = dt0, inter_gap = inter_gap):
+&quot;During time conversion, 4 values were set to NA. Check the correct time zone specification.&quot;Warning message in CGMS2DayByDay(., tz = tz, dt0 = dt0, inter_gap = inter_gap):
+&quot;During time conversion, 4 values were set to NA. Check the correct time zone specification.&quot;Warning message in CGMS2DayByDay(., tz = tz, dt0 = dt0, inter_gap = inter_gap):
+&quot;During time conversion, 4 values were set to NA. Check the correct time zone specification.&quot;Warning message in CGMS2DayByDay(., tz = tz, dt0 = dt0, inter_gap = inter_gap):
+&quot;During time conversion, 4 values were set to NA. Check the correct time zone specification.&quot;Warning message in CGMS2DayByDay(., tz = tz, dt0 = dt0, inter_gap = inter_gap):
+&quot;During time conversion, 4 values were set to NA. Check the correct time zone specification.&quot;
+</pre></div>
+</div>
+<img alt="_images/5_r_other_metrics_13_1.png" src="_images/5_r_other_metrics_13_1.png" />
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="4_other_metrics.html" title="previous page">4. Other diabetes metrics</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Catherine Russon<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

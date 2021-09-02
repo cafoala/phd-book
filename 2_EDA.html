@@ -1,0 +1,1683 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2. Exploratory data analysis &#8212; Machine learning for hypoglycaemia prediction around exercise</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8e5499552300ddf5d7adccae7cc3b70.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Hypoglycaemic episodes" href="3_identifying_hypos.html" />
+    <link rel="prev" title="1. Preprocessing" href="1_create_df.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine learning for hypoglycaemia prediction around exercise</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="0_landing_page.html">
+   Welcome to my first Jupyter Book
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Chapter 1 - Interpolation for the improved identification of hypoglycaemic episodes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="1_create_df.html">
+   1. Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2. Exploratory data analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3_identifying_hypos.html">
+   3. Hypoglycaemic episodes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4_other_metrics.html">
+   4. Other diabetes metrics
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/2_EDA.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/2_EDA.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#upload-packages-and-import-data">
+   2.1. Upload packages and import data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistical-significance-with-chi2-test">
+   2.2 Statistical significance with chi2 test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#distribution-in-duration-of-episodes">
+   2.3 Distribution in duration of episodes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculate-rmse">
+   2.4. Calculate RMSE
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#precision-recall-pareto-front-plots">
+   2.5. Precision-recall Pareto front plots
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="exploratory-data-analysis">
+<h1>2. Exploratory data analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this headline">¶</a></h1>
+<p>In this notebook I explore the data in further detail</p>
+<div class="section" id="upload-packages-and-import-data">
+<h2>2.1. Upload packages and import data<a class="headerlink" href="#upload-packages-and-import-data" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">mean_absolute_error</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_columns&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Upload datasets</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;~/OneDrive - University of Exeter/Desktop/PhD/Projects/interpolation-for-hypo-detection/dexcom-maths-exploration/data/tidy_data/interp_dataset.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;glc&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">aligned_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;~/OneDrive - University of Exeter/Desktop/PhD/Projects/interpolation-for-hypo-detection/dexcom-maths-exploration/code/raw_code/aligned_results_rounded.csv&#39;</span><span class="p">)</span>
+<span class="n">results_frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;~/OneDrive - University of Exeter/Desktop/PhD/Projects/interpolation-for-hypo-detection/dexcom-maths-exploration/code/raw_code/confusion_matrix_hypos.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define interp methods</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cut_glc&#39;</span><span class="p">,</span> <span class="s1">&#39;pchip&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span>
+       <span class="s1">&#39;cubicspline&#39;</span><span class="p">,</span> <span class="s1">&#39;akima&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial_3&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial_5&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial_7&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;matern&#39;</span><span class="p">,</span> <span class="s1">&#39;rq&#39;</span><span class="p">,</span> <span class="s1">&#39;rbf&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="statistical-significance-with-chi2-test">
+<h2>2.2 Statistical significance with chi2 test<a class="headerlink" href="#statistical-significance-with-chi2-test" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_frame</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>method</th>
+      <th>lv</th>
+      <th>TP</th>
+      <th>FN</th>
+      <th>FP</th>
+      <th>recall</th>
+      <th>prec</th>
+      <th>csi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cut_glc</td>
+      <td>all</td>
+      <td>397</td>
+      <td>31</td>
+      <td>1</td>
+      <td>0.928</td>
+      <td>0.997</td>
+      <td>0.925</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>linear</td>
+      <td>all</td>
+      <td>411</td>
+      <td>17</td>
+      <td>4</td>
+      <td>0.960</td>
+      <td>0.990</td>
+      <td>0.951</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>rq</td>
+      <td>all</td>
+      <td>413</td>
+      <td>15</td>
+      <td>9</td>
+      <td>0.965</td>
+      <td>0.979</td>
+      <td>0.945</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>akima</td>
+      <td>all</td>
+      <td>416</td>
+      <td>12</td>
+      <td>11</td>
+      <td>0.972</td>
+      <td>0.974</td>
+      <td>0.948</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>pchip</td>
+      <td>all</td>
+      <td>417</td>
+      <td>11</td>
+      <td>8</td>
+      <td>0.974</td>
+      <td>0.981</td>
+      <td>0.956</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conf_matrix</span> <span class="o">=</span> <span class="n">results_frame</span><span class="p">[[</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;lv&#39;</span><span class="p">,</span> <span class="s1">&#39;TP&#39;</span><span class="p">,</span> <span class="s1">&#39;FN&#39;</span><span class="p">,</span> <span class="s1">&#39;FP&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">conf_matrix</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;glc&#39;</span><span class="p">,</span> <span class="s1">&#39;glc&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">TP</span> <span class="o">+</span> <span class="n">row</span><span class="o">.</span><span class="n">FN</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">V</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dof</span><span class="p">,</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">chi2_contingency</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">p_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;lv&#39;</span><span class="p">],</span> <span class="n">row</span><span class="o">.</span><span class="n">method</span><span class="p">,</span> <span class="n">p</span><span class="p">])</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;0 error&#39;</span><span class="p">)</span>
+        <span class="k">continue</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 error
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">p_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;hypo&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">,</span> 
+                              <span class="s1">&#39;p-value&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">&#39;hypo&#39;</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>hypo</th>
+      <th>method</th>
+      <th>p-value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>11</th>
+      <td>all</td>
+      <td>akima</td>
+      <td>9.955542e-06</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>all</td>
+      <td>cubicspline</td>
+      <td>1.750492e-05</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>all</td>
+      <td>cut_glc</td>
+      <td>6.289096e-08</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>all</td>
+      <td>linear</td>
+      <td>2.339105e-05</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>all</td>
+      <td>matern</td>
+      <td>1.077659e-05</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>all</td>
+      <td>pchip</td>
+      <td>7.225001e-05</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>all</td>
+      <td>polynomial_3</td>
+      <td>1.750492e-05</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>all</td>
+      <td>polynomial_5</td>
+      <td>2.915644e-05</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>all</td>
+      <td>polynomial_7</td>
+      <td>6.462125e-06</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>all</td>
+      <td>rbf</td>
+      <td>3.982394e-06</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>all</td>
+      <td>rq</td>
+      <td>5.625183e-06</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>lv1</td>
+      <td>akima</td>
+      <td>3.114020e-09</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>lv1</td>
+      <td>cubicspline</td>
+      <td>1.134149e-09</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>lv1</td>
+      <td>cut_glc</td>
+      <td>2.403270e-11</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>lv1</td>
+      <td>linear</td>
+      <td>4.980303e-09</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>lv1</td>
+      <td>matern</td>
+      <td>3.345506e-09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>lv1</td>
+      <td>pchip</td>
+      <td>4.980303e-09</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>lv1</td>
+      <td>polynomial_3</td>
+      <td>1.134149e-09</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>lv1</td>
+      <td>polynomial_5</td>
+      <td>3.114020e-09</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>lv1</td>
+      <td>polynomial_7</td>
+      <td>6.582361e-10</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>lv1</td>
+      <td>rbf</td>
+      <td>1.222841e-09</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>lv1</td>
+      <td>rq</td>
+      <td>4.127257e-10</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>lv2</td>
+      <td>akima</td>
+      <td>3.323565e-04</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>lv2</td>
+      <td>cubicspline</td>
+      <td>8.471321e-05</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>lv2</td>
+      <td>linear</td>
+      <td>1.508492e-04</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>lv2</td>
+      <td>matern</td>
+      <td>1.354055e-04</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>lv2</td>
+      <td>pchip</td>
+      <td>7.163967e-05</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>lv2</td>
+      <td>polynomial_3</td>
+      <td>8.471321e-05</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>lv2</td>
+      <td>polynomial_5</td>
+      <td>1.426429e-04</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>lv2</td>
+      <td>polynomial_7</td>
+      <td>1.426429e-04</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>lv2</td>
+      <td>rbf</td>
+      <td>3.652605e-04</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>lv2</td>
+      <td>rq</td>
+      <td>6.385274e-05</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="distribution-in-duration-of-episodes">
+<h2>2.3 Distribution in duration of episodes<a class="headerlink" href="#distribution-in-duration-of-episodes" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the duration of hypos to minutes</span>
+<span class="n">aligned_results</span><span class="p">[</span><span class="s1">&#39;5_min_diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_timedelta</span><span class="p">(</span><span class="n">aligned_results</span><span class="p">[</span><span class="s1">&#39;5_min_diff&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;timedelta64[m]&#39;</span><span class="p">)</span>
+<span class="c1"># Only need one method from aligned_results</span>
+<span class="n">df_results</span> <span class="o">=</span> <span class="n">aligned_results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">aligned_results</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;cut_glc&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set up a new dataframe for comparing the describe() metrics for each level</span>
+<span class="n">df_duration</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="n">df_duration</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;5_min_diff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="n">df_duration</span><span class="p">[</span><span class="s1">&#39;lv1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_results</span><span class="p">[</span><span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;5_min_lv2&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">False</span><span class="p">][</span><span class="s1">&#39;5_min_diff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<span class="n">df_duration</span><span class="p">[</span><span class="s1">&#39;lv2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_results</span><span class="p">[</span><span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;5_min_lv2&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">][</span><span class="s1">&#39;5_min_diff&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_duration</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>all</th>
+      <th>lv1</th>
+      <th>lv2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>428.000000</td>
+      <td>264.000000</td>
+      <td>164.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>77.228972</td>
+      <td>50.435606</td>
+      <td>120.359756</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>86.430240</td>
+      <td>50.111090</td>
+      <td>111.727643</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>15.000000</td>
+      <td>15.000000</td>
+      <td>15.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>25.000000</td>
+      <td>25.000000</td>
+      <td>48.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>45.000000</td>
+      <td>30.000000</td>
+      <td>77.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>95.000000</td>
+      <td>55.000000</td>
+      <td>135.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>635.000000</td>
+      <td>405.000000</td>
+      <td>635.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of hyps over 120 mins</span>
+<span class="n">df_results</span><span class="p">[</span><span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;5_min_diff&#39;</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">120</span><span class="p">][</span><span class="s1">&#39;ID&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>71
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare data for a seaborn boxplot by renaming variables</span>
+<span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;Level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_results</span><span class="p">[</span><span class="s1">&#39;5_min_lv2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="kc">True</span><span class="p">:</span> <span class="s1">&#39;Level 2&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">:</span> 
+                                                       <span class="s1">&#39;Level 1&#39;</span><span class="p">})</span>
+<span class="c1"># Copy dataframe to add an all column to figure</span>
+<span class="n">df_all</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">df_results</span><span class="p">)</span>
+<span class="n">df_all</span><span class="p">[</span><span class="s1">&#39;Level&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;All&#39;</span>
+<span class="n">df_results_concat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_results</span><span class="p">,</span> <span class="n">df_all</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="s1">&#39;Level&#39;</span><span class="p">,</span> <span class="s1">&#39;5_min_diff&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df_results_concat</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;All&#39;</span><span class="p">,</span> <span class="s1">&#39;Level 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Level 2&#39;</span><span class="p">])</span><span class="c1">#, hue=&#39;lv2&#39;)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Type of hypo&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Duration (mins)&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;length_of_hypos_boxplot.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.5, 0, &#39;Type of hypo&#39;), Text(0, 0.5, &#39;Duration (mins)&#39;)]
+</pre></div>
+</div>
+<img alt="_images/2_EDA_17_1.png" src="_images/2_EDA_17_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="calculate-rmse">
+<h2>2.4. Calculate RMSE<a class="headerlink" href="#calculate-rmse" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">metrics_calc</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">base_col</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Evaluate each method using R2, RMSE and MAE and add to dataframe</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;Name&#39;</span><span class="p">:</span><span class="n">col</span><span class="p">,</span><span class="s1">&#39;R2&#39;</span><span class="p">:</span><span class="n">r2_score</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">base_col</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]),</span> 
+                             <span class="s1">&#39;RMSE&#39;</span><span class="p">:</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">base_col</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">squared</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> 
+                             <span class="s1">&#39;MAE&#39;</span><span class="p">:</span><span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">base_col</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete 15 min column and leave only interp methods</span>
+<span class="n">df_rmse</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;cut_glc&#39;</span><span class="p">])]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cut_glc&#39;</span><span class="p">])</span>
+<span class="n">df_rmse</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Also delete from list of methods</span>
+<span class="n">interp_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pchip&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">,</span> <span class="s1">&#39;cubicspline&#39;</span><span class="p">,</span> <span class="s1">&#39;akima&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial_3&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;polynomial_5&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial_7&#39;</span><span class="p">,</span> <span class="s1">&#39;matern&#39;</span><span class="p">,</span> <span class="s1">&#39;rq&#39;</span><span class="p">,</span> <span class="s1">&#39;rbf&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Declare list for results</span>
+<span class="n">frame_results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Call metrics_calc on all of the methods to calculate accuracy</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">interp_methods</span><span class="p">:</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">frame_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics_calc</span><span class="p">(</span><span class="n">df_rmse</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s1">&#39;glc&#39;</span><span class="p">),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Convert to dataframe</span>
+<span class="n">frame</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">frame_results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="s1">&#39;MAE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>R2</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>8</th>
+      <td>rq</td>
+      <td>0.995523</td>
+      <td>0.088461</td>
+      <td>0.127923</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>pchip</td>
+      <td>0.995306</td>
+      <td>0.092755</td>
+      <td>0.127473</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>akima</td>
+      <td>0.995303</td>
+      <td>0.092800</td>
+      <td>0.127996</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>linear</td>
+      <td>0.995277</td>
+      <td>0.093318</td>
+      <td>0.137190</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>cubicspline</td>
+      <td>0.994968</td>
+      <td>0.099420</td>
+      <td>0.128674</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>polynomial_3</td>
+      <td>0.994968</td>
+      <td>0.099420</td>
+      <td>0.128674</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>polynomial_5</td>
+      <td>0.994674</td>
+      <td>0.105224</td>
+      <td>0.132802</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>rbf</td>
+      <td>0.994206</td>
+      <td>0.114474</td>
+      <td>0.141112</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>polynomial_7</td>
+      <td>0.994138</td>
+      <td>0.115829</td>
+      <td>0.137596</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>matern</td>
+      <td>0.994120</td>
+      <td>0.116186</td>
+      <td>0.139742</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate metrics_calc for hypoglycaemia threshold</span>
+<span class="n">df_hypo</span> <span class="o">=</span> <span class="n">df_rmse</span><span class="p">[(</span><span class="n">df_rmse</span><span class="o">.</span><span class="n">glc</span><span class="o">&lt;</span><span class="mf">4.5</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">df_rmse</span><span class="o">.</span><span class="n">glc</span><span class="o">&gt;</span><span class="mf">2.5</span><span class="p">)]</span>
+<span class="c1"># Declare list for results</span>
+<span class="n">results_hypo</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Loop through each method to calculate accuracy vs 5 min readings</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">interp_methods</span><span class="p">:</span>
+    <span class="n">frame_hypo</span> <span class="o">=</span> <span class="n">results_hypo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">metrics_calc</span><span class="p">(</span><span class="n">df_hypo</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s1">&#39;glc&#39;</span><span class="p">),</span> 
+                                     <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Convert to dataframe</span>
+<span class="n">frame_hypo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results_hypo</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">,</span> <span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="s1">&#39;MAE&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frame_hypo</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>R2</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>cubicspline</td>
+      <td>0.864649</td>
+      <td>0.034955</td>
+      <td>0.103256</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>polynomial_3</td>
+      <td>0.864649</td>
+      <td>0.034955</td>
+      <td>0.103256</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>matern</td>
+      <td>0.863851</td>
+      <td>0.035161</td>
+      <td>0.105619</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>pchip</td>
+      <td>0.863360</td>
+      <td>0.035287</td>
+      <td>0.104982</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>akima</td>
+      <td>0.860795</td>
+      <td>0.035950</td>
+      <td>0.105397</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>polynomial_5</td>
+      <td>0.859898</td>
+      <td>0.036182</td>
+      <td>0.106036</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>rbf</td>
+      <td>0.857435</td>
+      <td>0.036818</td>
+      <td>0.110144</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>polynomial_7</td>
+      <td>0.855503</td>
+      <td>0.037316</td>
+      <td>0.108753</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>rq</td>
+      <td>0.852004</td>
+      <td>0.038220</td>
+      <td>0.107797</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>linear</td>
+      <td>0.837577</td>
+      <td>0.041946</td>
+      <td>0.118415</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="precision-recall-pareto-front-plots">
+<h2>2.5. Precision-recall Pareto front plots<a class="headerlink" href="#precision-recall-pareto-front-plots" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Replace labels for legend of plot</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cut_glc&#39;</span><span class="p">:</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span><span class="s1">&#39;Linear&#39;</span><span class="p">,</span> 
+          <span class="s1">&#39;absexp&#39;</span><span class="p">:</span><span class="s1">&#39;GP(Abs exp)&#39;</span><span class="p">,</span> <span class="s1">&#39;akima&#39;</span><span class="p">:</span><span class="s1">&#39;Akima&#39;</span><span class="p">,</span> 
+          <span class="s1">&#39;matern&#39;</span><span class="p">:</span><span class="s1">&#39;GP(Matern)&#39;</span><span class="p">,</span> <span class="s1">&#39;pchip&#39;</span><span class="p">:</span><span class="s1">&#39;Pchip&#39;</span><span class="p">,</span> 
+          <span class="s1">&#39;rbf&#39;</span><span class="p">:</span><span class="s1">&#39;GP(RBF)&#39;</span><span class="p">,</span> <span class="s1">&#39;cubicspline&#39;</span><span class="p">:</span><span class="s1">&#39;Cubic spline&#39;</span><span class="p">,</span> 
+         <span class="s1">&#39;polynomial_3&#39;</span><span class="p">:</span><span class="s1">&#39;Poly 3&#39;</span><span class="p">,</span> <span class="s1">&#39;rq&#39;</span><span class="p">:</span> <span class="s1">&#39;GP(RQ)&#39;</span><span class="p">,</span> <span class="s1">&#39;polynomial_5&#39;</span><span class="p">:</span><span class="s1">&#39;Poly 5&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;polynomial_7&#39;</span><span class="p">:</span><span class="s1">&#39;Poly 7&#39;</span><span class="p">}</span>
+<span class="n">results_frame</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">results_frame</span><span class="o">.</span><span class="n">method</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+<span class="c1"># Order of legend</span>
+<span class="n">hue_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="s1">&#39;Linear&#39;</span><span class="p">,</span> <span class="s1">&#39;Poly 3&#39;</span><span class="p">,</span> <span class="s1">&#39;Poly 5&#39;</span><span class="p">,</span> <span class="s1">&#39;Poly 7&#39;</span><span class="p">,</span> <span class="s1">&#39;Akima&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;Cubic spline&#39;</span><span class="p">,</span> <span class="s1">&#39;Pchip&#39;</span><span class="p">,</span> <span class="s1">&#39;GP(Matern)&#39;</span><span class="p">,</span> <span class="s1">&#39;GP(RBF)&#39;</span><span class="p">,</span> <span class="s1">&#39;GP(RQ)&#39;</span><span class="p">]</span>
+<span class="c1"># Rename columns</span>
+<span class="n">results_frame</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;lv&#39;</span><span class="p">,</span> <span class="s1">&#39;TP&#39;</span><span class="p">,</span> <span class="s1">&#39;FN&#39;</span><span class="p">,</span> <span class="s1">&#39;FP&#39;</span><span class="p">,</span> <span class="s1">&#39;Recall&#39;</span><span class="p">,</span> <span class="s1">&#39;Precision&#39;</span><span class="p">,</span> <span class="s1">&#39;CSI&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results_frame</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Method</th>
+      <th>lv</th>
+      <th>TP</th>
+      <th>FN</th>
+      <th>FP</th>
+      <th>Recall</th>
+      <th>Precision</th>
+      <th>CSI</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>None</td>
+      <td>all</td>
+      <td>397</td>
+      <td>31</td>
+      <td>1</td>
+      <td>0.928</td>
+      <td>0.997</td>
+      <td>0.925</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Linear</td>
+      <td>all</td>
+      <td>411</td>
+      <td>17</td>
+      <td>4</td>
+      <td>0.960</td>
+      <td>0.990</td>
+      <td>0.951</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>GP(RQ)</td>
+      <td>all</td>
+      <td>413</td>
+      <td>15</td>
+      <td>9</td>
+      <td>0.965</td>
+      <td>0.979</td>
+      <td>0.945</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Akima</td>
+      <td>all</td>
+      <td>416</td>
+      <td>12</td>
+      <td>11</td>
+      <td>0.972</td>
+      <td>0.974</td>
+      <td>0.948</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Pchip</td>
+      <td>all</td>
+      <td>417</td>
+      <td>11</td>
+      <td>8</td>
+      <td>0.974</td>
+      <td>0.981</td>
+      <td>0.956</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>GP(RBF)</td>
+      <td>all</td>
+      <td>418</td>
+      <td>10</td>
+      <td>15</td>
+      <td>0.977</td>
+      <td>0.965</td>
+      <td>0.944</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Poly 7</td>
+      <td>all</td>
+      <td>418</td>
+      <td>10</td>
+      <td>14</td>
+      <td>0.977</td>
+      <td>0.968</td>
+      <td>0.946</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>GP(Matern)</td>
+      <td>all</td>
+      <td>419</td>
+      <td>9</td>
+      <td>14</td>
+      <td>0.979</td>
+      <td>0.968</td>
+      <td>0.948</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Cubic spline</td>
+      <td>all</td>
+      <td>419</td>
+      <td>9</td>
+      <td>13</td>
+      <td>0.979</td>
+      <td>0.970</td>
+      <td>0.950</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Poly 3</td>
+      <td>all</td>
+      <td>419</td>
+      <td>9</td>
+      <td>13</td>
+      <td>0.979</td>
+      <td>0.970</td>
+      <td>0.950</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Poly 5</td>
+      <td>all</td>
+      <td>420</td>
+      <td>8</td>
+      <td>13</td>
+      <td>0.981</td>
+      <td>0.970</td>
+      <td>0.952</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>None</td>
+      <td>lv1</td>
+      <td>236</td>
+      <td>28</td>
+      <td>20</td>
+      <td>0.894</td>
+      <td>0.922</td>
+      <td>0.831</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>GP(RQ)</td>
+      <td>lv1</td>
+      <td>242</td>
+      <td>22</td>
+      <td>21</td>
+      <td>0.917</td>
+      <td>0.920</td>
+      <td>0.849</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Poly 7</td>
+      <td>lv1</td>
+      <td>242</td>
+      <td>22</td>
+      <td>20</td>
+      <td>0.917</td>
+      <td>0.924</td>
+      <td>0.852</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Cubic spline</td>
+      <td>lv1</td>
+      <td>243</td>
+      <td>21</td>
+      <td>20</td>
+      <td>0.920</td>
+      <td>0.924</td>
+      <td>0.856</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Poly 3</td>
+      <td>lv1</td>
+      <td>243</td>
+      <td>21</td>
+      <td>20</td>
+      <td>0.920</td>
+      <td>0.924</td>
+      <td>0.856</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>GP(RBF)</td>
+      <td>lv1</td>
+      <td>244</td>
+      <td>20</td>
+      <td>21</td>
+      <td>0.924</td>
+      <td>0.921</td>
+      <td>0.856</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Akima</td>
+      <td>lv1</td>
+      <td>244</td>
+      <td>20</td>
+      <td>19</td>
+      <td>0.924</td>
+      <td>0.928</td>
+      <td>0.862</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Poly 5</td>
+      <td>lv1</td>
+      <td>244</td>
+      <td>20</td>
+      <td>19</td>
+      <td>0.924</td>
+      <td>0.928</td>
+      <td>0.862</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Pchip</td>
+      <td>lv1</td>
+      <td>244</td>
+      <td>20</td>
+      <td>18</td>
+      <td>0.924</td>
+      <td>0.931</td>
+      <td>0.865</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Linear</td>
+      <td>lv1</td>
+      <td>244</td>
+      <td>20</td>
+      <td>18</td>
+      <td>0.924</td>
+      <td>0.931</td>
+      <td>0.865</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>GP(Matern)</td>
+      <td>lv1</td>
+      <td>245</td>
+      <td>19</td>
+      <td>20</td>
+      <td>0.928</td>
+      <td>0.925</td>
+      <td>0.863</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>None</td>
+      <td>lv2</td>
+      <td>142</td>
+      <td>22</td>
+      <td>0</td>
+      <td>0.866</td>
+      <td>1.000</td>
+      <td>0.866</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Linear</td>
+      <td>lv2</td>
+      <td>150</td>
+      <td>14</td>
+      <td>3</td>
+      <td>0.915</td>
+      <td>0.980</td>
+      <td>0.898</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>GP(RQ)</td>
+      <td>lv2</td>
+      <td>152</td>
+      <td>12</td>
+      <td>7</td>
+      <td>0.927</td>
+      <td>0.956</td>
+      <td>0.889</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Pchip</td>
+      <td>lv2</td>
+      <td>154</td>
+      <td>10</td>
+      <td>9</td>
+      <td>0.939</td>
+      <td>0.945</td>
+      <td>0.890</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Akima</td>
+      <td>lv2</td>
+      <td>156</td>
+      <td>8</td>
+      <td>8</td>
+      <td>0.951</td>
+      <td>0.951</td>
+      <td>0.907</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Cubic spline</td>
+      <td>lv2</td>
+      <td>157</td>
+      <td>7</td>
+      <td>12</td>
+      <td>0.957</td>
+      <td>0.929</td>
+      <td>0.892</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Poly 3</td>
+      <td>lv2</td>
+      <td>157</td>
+      <td>7</td>
+      <td>12</td>
+      <td>0.957</td>
+      <td>0.929</td>
+      <td>0.892</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>GP(Matern)</td>
+      <td>lv2</td>
+      <td>157</td>
+      <td>7</td>
+      <td>11</td>
+      <td>0.957</td>
+      <td>0.935</td>
+      <td>0.897</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Poly 5</td>
+      <td>lv2</td>
+      <td>158</td>
+      <td>6</td>
+      <td>12</td>
+      <td>0.963</td>
+      <td>0.929</td>
+      <td>0.898</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Poly 7</td>
+      <td>lv2</td>
+      <td>158</td>
+      <td>6</td>
+      <td>12</td>
+      <td>0.963</td>
+      <td>0.929</td>
+      <td>0.898</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>GP(RBF)</td>
+      <td>lv2</td>
+      <td>158</td>
+      <td>6</td>
+      <td>10</td>
+      <td>0.963</td>
+      <td>0.940</td>
+      <td>0.908</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create subsets of dataframe for all levels of hypos</span>
+<span class="n">lv_all</span> <span class="o">=</span> <span class="n">results_frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_frame</span><span class="p">[</span><span class="s1">&#39;lv&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> 
+<span class="n">lv1</span> <span class="o">=</span> <span class="n">results_frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_frame</span><span class="p">[</span><span class="s1">&#39;lv&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;lv1&#39;</span><span class="p">]</span>
+<span class="n">lv2</span> <span class="o">=</span> <span class="n">results_frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">results_frame</span><span class="p">[</span><span class="s1">&#39;lv&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;lv2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">identify_pareto</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate Pareto front of methods from Python for Healthcare by</span>
+<span class="sd">    Mike Allen</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Count number of items</span>
+    <span class="n">population_size</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Create a NumPy index for scores on the pareto front (zero indexed)</span>
+    <span class="n">population_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">population_size</span><span class="p">)</span>
+    <span class="c1"># Create a starting list of items on the Pareto front</span>
+    <span class="c1"># All items start off as being labelled as on the Parteo front</span>
+    <span class="n">pareto_front</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">population_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="c1"># Loop through each item. This will then be compared with all other items</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">population_size</span><span class="p">):</span>
+        <span class="c1"># Loop through all other items</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">population_size</span><span class="p">):</span>
+            <span class="c1"># Check if our &#39;i&#39; pint is dominated by out &#39;j&#39; point</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+                <span class="c1"># j dominates i. Label &#39;i&#39; point as not on Pareto front</span>
+                <span class="n">pareto_front</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="c1"># Stop further comparisons with &#39;i&#39; (no more comparisons needed)</span>
+                <span class="k">break</span>
+    <span class="c1"># Return ids of scenarios on pareto front</span>
+    <span class="k">return</span> <span class="n">population_ids</span><span class="p">[</span><span class="n">pareto_front</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_pareto_coords</span><span class="p">(</span><span class="n">dataframe</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Computes the precision-recall coordinates to plot on the plots using </span>
+<span class="sd">    identify_pareto</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">pareto</span> <span class="o">=</span> <span class="n">identify_pareto</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[[</span><span class="s1">&#39;Recall&#39;</span><span class="p">,</span> <span class="s1">&#39;Precision&#39;</span><span class="p">]]))</span>
+    <span class="n">pareto_front</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dataframe</span><span class="p">[[</span><span class="s1">&#39;Recall&#39;</span><span class="p">,</span> <span class="s1">&#39;Precision&#39;</span><span class="p">]])[</span><span class="n">pareto</span><span class="p">]</span>
+
+    <span class="n">pareto_front_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pareto_front</span><span class="p">)</span>
+    <span class="n">pareto_front_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pareto_front</span> <span class="o">=</span> <span class="n">pareto_front_df</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">x_pareto</span> <span class="o">=</span> <span class="n">pareto_front</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">y_pareto</span> <span class="o">=</span> <span class="n">pareto_front</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">x_pareto</span><span class="p">,</span> <span class="n">y_pareto</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get pareto coordinates to plot on fig</span>
+<span class="n">x_pareto</span><span class="p">,</span> <span class="n">y_pareto</span> <span class="o">=</span> <span class="n">compute_pareto_coords</span><span class="p">(</span><span class="n">lv_all</span><span class="p">)</span>
+<span class="n">x_pareto1</span><span class="p">,</span> <span class="n">y_pareto1</span> <span class="o">=</span> <span class="n">compute_pareto_coords</span><span class="p">(</span><span class="n">lv1</span><span class="p">)</span>
+<span class="n">x_pareto2</span><span class="p">,</span> <span class="n">y_pareto2</span> <span class="o">=</span> <span class="n">compute_pareto_coords</span><span class="p">(</span><span class="n">lv2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot precision-recall plot with Pareto front as red line</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+<span class="c1"># Plot all hypos</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pareto</span><span class="p">,</span> <span class="n">y_pareto</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lv_all</span><span class="o">.</span><span class="n">Precision</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">lv_all</span><span class="o">.</span><span class="n">Recall</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">lv_all</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">],</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="c1"># Plot level 1 hypos</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pareto1</span><span class="p">,</span> <span class="n">y_pareto1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lv1</span><span class="o">.</span><span class="n">Precision</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">lv1</span><span class="o">.</span><span class="n">Recall</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">lv1</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">],</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="c1"># Plot level 2 hypos</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pareto2</span><span class="p">,</span> <span class="n">y_pareto2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lv2</span><span class="o">.</span><span class="n">Precision</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">lv2</span><span class="o">.</span><span class="n">Recall</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">lv2</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">],</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">)</span>
+<span class="c1"># Remove legends</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="c1"># Save figure</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;pareto_3.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot all hypos</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lv_all</span><span class="o">.</span><span class="n">Precision</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">lv_all</span><span class="o">.</span><span class="n">Recall</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">lv_all</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">],</span> <span class="n">hue_order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pareto</span><span class="p">,</span> <span class="n">y_pareto</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;pareto_all_example.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2_EDA_33_0.png" src="_images/2_EDA_33_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plote level 1 hypos</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lv1</span><span class="o">.</span><span class="n">Precision</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">lv1</span><span class="o">.</span><span class="n">Recall</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">lv1</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pareto1</span><span class="p">,</span> <span class="n">y_pareto1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="c1">#ax.get_legend().remove()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;pareto_lv1.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2_EDA_34_0.png" src="_images/2_EDA_34_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plote level 2 hypos</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pareto2</span><span class="p">,</span> <span class="n">y_pareto2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">lv2</span><span class="o">.</span><span class="n">Precision</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">lv2</span><span class="o">.</span><span class="n">Recall</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="n">lv2</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                <span class="n">hue_order</span><span class="o">=</span><span class="n">hue_order</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;pareto_lv2.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2_EDA_35_0.png" src="_images/2_EDA_35_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="1_create_df.html" title="previous page">1. Preprocessing</a>
+    <a class='right-next' id="next-link" href="3_identifying_hypos.html" title="next page">3. Hypoglycaemic episodes</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Catherine Russon<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
