@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Diametrics Package &amp; Webapp &#8212; Machine learning for glycaemia prediction around exercise</title>
+    <title>5. Web Application &#8212; Machine learning for glycaemia prediction around exercise</title>
   
   
   
@@ -61,11 +61,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'diametrics/intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'diametrics/5_webapp copy';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Diametrics Package Demo" href="experiment.html" />
-    <link rel="prev" title="Introduction" href="../0_landing_page.html" />
+    <link rel="next" title="1. Preprocessing" href="../interpolation/1_create_df.html" />
+    <link rel="prev" title="4. Visualizations" href="4_visualizations_demo.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -152,10 +152,12 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapter 1 - Python package and Webapp for calculating the metrics of glycemic control</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Diametrics Package &amp; Webapp</a></li>
-<li class="toctree-l1"><a class="reference internal" href="experiment.html">Diametrics Package Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0_overview.html">Diametrics Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_upload_demo.html">1. Uploading and transforming data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_preprocessing_demo.html">2. Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="3_metrics_demo.html">3. Metrics of glycemic control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="4_visualizations_demo.html">4. Visualizations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Web Application</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Chapter 2 - Interpolation for the improved identification of hypoglycaemic episodes</span></p>
 <ul class="nav bd-sidenav">
@@ -241,7 +243,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/diametrics/intro.ipynb" target="_blank"
+      <li><a href="../_sources/diametrics/5_webapp copy.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -310,7 +312,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -321,11 +325,24 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Diametrics Package & Webapp</h1>
+    <h1>5. Web Application</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-page">5.1. Upload page</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-overview">5.2. Data overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-options">5.3. Analysis options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-metrics-of-glycemic-control">5.4. Standard metrics of glycemic control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisations">5.5. Visualisations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehensive-documentation">5.6. Comprehensive documentation</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -335,10 +352,39 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="diametrics-package-webapp">
-<h1>Diametrics Package &amp; Webapp<a class="headerlink" href="#diametrics-package-webapp" title="Permalink to this heading">#</a></h1>
-<p>Diametrics is …</p>
-<iframe width="580" height="364" src="https://www.youtube.com/embed/uUcuigkCrm0" title="Welcome!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></section>
+  <section class="tex2jax_ignore mathjax_ignore" id="web-application">
+<h1>5. Web Application<a class="headerlink" href="#web-application" title="Permalink to this heading">#</a></h1>
+<section id="upload-page">
+<h2>5.1. Upload page<a class="headerlink" href="#upload-page" title="Permalink to this heading">#</a></h2>
+<p>Easy drag and drop uploading with plenty of flexibility and freedoms with regards to CGM devices</p>
+<p><img alt="image.png" src="diametrics/attachment:image.png" /></p>
+</section>
+<section id="data-overview">
+<h2>5.2. Data overview<a class="headerlink" href="#data-overview" title="Permalink to this heading">#</a></h2>
+<p>This section serves to give you an overview of the processed CGM files you uploaded and allows you to do some minor editing of the data.</p>
+<p><img alt="image.png" src="diametrics/attachment:image.png" /></p>
+</section>
+<section id="analysis-options">
+<h2>5.3. Analysis options<a class="headerlink" href="#analysis-options" title="Permalink to this heading">#</a></h2>
+<p>This section gives users more freedom to adjust the metrics to suit their needs but is not necessary to proceed with calculating the standard metrics.</p>
+<p><img alt="image.png" src="diametrics/attachment:image.png" /></p>
+</section>
+<section id="standard-metrics-of-glycemic-control">
+<h2>5.4. Standard metrics of glycemic control<a class="headerlink" href="#standard-metrics-of-glycemic-control" title="Permalink to this heading">#</a></h2>
+<p>The American Diabetes Assosication (ADA) released the international consensus detailing the important metrics. These metrics are all calculated by Diametrics plus a few other commonly used ones.</p>
+<p><img alt="image.png" src="diametrics/attachment:image.png" /></p>
+</section>
+<section id="visualisations">
+<h2>5.5. Visualisations<a class="headerlink" href="#visualisations" title="Permalink to this heading">#</a></h2>
+<p>The figures displayed on the Diametrics are all created using Plotly, an interactive Python plotting library. All figures can be downloaded and manipulated using the toolbar available in all of Plotly’s plots.</p>
+<p><img alt="image.png" src="diametrics/attachment:image.png" /></p>
+</section>
+<section id="comprehensive-documentation">
+<h2>5.6. Comprehensive documentation<a class="headerlink" href="#comprehensive-documentation" title="Permalink to this heading">#</a></h2>
+<p>There is written documentation accompanied by video instructions for each section of the Web App, making it extremely accessible and user friendly.</p>
+<p><img alt="image.png" src="diametrics/attachment:image.png" /></p>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -372,20 +418,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../0_landing_page.html"
+       href="4_visualizations_demo.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Introduction</p>
+        <p class="prev-next-title">4. Visualizations</p>
       </div>
     </a>
     <a class="right-next"
-       href="experiment.html"
+       href="../interpolation/1_create_df.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Diametrics Package Demo</p>
+        <p class="prev-next-title">1. Preprocessing</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -398,6 +444,25 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upload-page">5.1. Upload page</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-overview">5.2. Data overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analysis-options">5.3. Analysis options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#standard-metrics-of-glycemic-control">5.4. Standard metrics of glycemic control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisations">5.5. Visualisations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehensive-documentation">5.6. Comprehensive documentation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

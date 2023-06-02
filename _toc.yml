@@ -3,8 +3,12 @@ root: 0_landing_page
 parts:
   - caption: Chapter 1 - Python package and Webapp for calculating the metrics of glycemic control
     chapters:
-    - file: diametrics/intro
-    - file: diametrics/experiment
+    - file: diametrics/0_overview
+    - file: diametrics/1_upload_demo
+    - file: diametrics/2_preprocessing_demo
+    - file: diametrics/3_metrics_demo
+    - file: diametrics/4_visualizations_demo
+    - file: diametrics/5_webapp copy
   - caption: Chapter 2 - Interpolation for the improved identification of hypoglycaemic episodes
     chapters:
     - file: interpolation/1_create_df
