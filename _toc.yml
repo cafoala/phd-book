@@ -8,7 +8,7 @@ parts:
     - file: diametrics/2_preprocessing_demo
     - file: diametrics/3_metrics_demo
     - file: diametrics/4_visualizations_demo
-    - file: diametrics/5_webapp copy
+    - file: diametrics/5_webapp
   - caption: Chapter 2 - Interpolation for the improved identification of hypoglycaemic episodes
     chapters:
     - file: interpolation/1_create_df
